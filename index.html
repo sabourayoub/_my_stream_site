@@ -3,45 +3,93 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>بثي المباشر</title>
+<title>برشلونة × رايو فايكانو | بث مباشر</title>
 <style>
-*{box-sizing:border-box}body{margin:0;background:#0b0d12;color:#fff;font-family:Arial,sans-serif}
-header{padding:18px 6%;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #20232c}
-.logo{font-size:24px;font-weight:800}.live{background:#e11d48;padding:7px 12px;border-radius:999px;font-size:13px}
-main{max-width:1100px;margin:35px auto;padding:0 18px}
-.player{aspect-ratio:16/9;background:#050608;border-radius:16px;display:flex;align-items:center;justify-content:center;border:1px solid #252936;overflow:hidden}
+*{box-sizing:border-box}
+body{margin:0;background:#070912;color:#fff;font-family:Arial,Tahoma,sans-serif}
+body:before{content:"";position:fixed;inset:0;background:radial-gradient(circle at 15% 10%,#17204d55,transparent 35%),radial-gradient(circle at 85% 20%,#6b102655,transparent 30%);pointer-events:none}
+header{position:sticky;top:0;z-index:5;padding:15px 5%;display:flex;justify-content:space-between;align-items:center;background:#090b14ee;backdrop-filter:blur(12px);border-bottom:1px solid #202536}
+.logo{font-size:23px;font-weight:900}.logo span{color:#ed1b2f}
+.live{background:#e51b3e;padding:7px 13px;border-radius:999px;font-size:13px;font-weight:800;box-shadow:0 0 20px #e51b3e55}
+main{max-width:1180px;margin:28px auto;padding:0 18px;position:relative}
+.match{position:relative;overflow:hidden;border:1px solid #293044;border-radius:22px;padding:28px;background:linear-gradient(135deg,#101a45,#12131e 48%,#3b101b);box-shadow:0 20px 70px #0008}
+.match:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#004d98 0 25%,transparent 25% 75%,#d71920 75%);opacity:.08;pointer-events:none}
+.kicker{text-align:center;color:#cbd2e3;font-size:13px;margin-bottom:15px}
+.teams{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:20px;position:relative;z-index:1}
+.team{text-align:center}.team img{width:105px;height:105px;object-fit:contain;filter:drop-shadow(0 10px 16px #0008)}
+.team h2{margin:12px 0 4px;font-size:24px}.team p{margin:0;color:#aeb6ca}
+.vs{text-align:center}.vs strong{font-size:34px}.time{margin-top:8px;background:#fff;color:#111;padding:8px 13px;border-radius:10px;font-weight:900;font-size:14px}
+.player{margin-top:22px;aspect-ratio:16/9;background:#020308;border-radius:18px;display:flex;align-items:center;justify-content:center;border:1px solid #2b3040;overflow:hidden;position:relative}
 .player video{width:100%;height:100%;object-fit:contain}
-.placeholder{text-align:center;color:#aeb4c2}.placeholder b{display:block;font-size:24px;margin-bottom:8px}
-h1{margin:24px 0 8px}.sub{color:#9ca3af}.info{margin-top:25px;padding:20px;background:#12151d;border-radius:14px}
-button{background:#fff;color:#111;border:0;padding:11px 18px;border-radius:10px;font-weight:700;cursor:pointer}
-code{background:#080a0f;padding:3px 7px;border-radius:5px}
+.placeholder{text-align:center;color:#b9c0d0;padding:20px}.placeholder .play{font-size:55px;margin-bottom:5px}.placeholder b{display:block;font-size:22px;color:#fff;margin-bottom:7px}
+.status{display:inline-flex;align-items:center;gap:7px;background:#171b27;padding:7px 12px;border-radius:999px;margin-top:13px;font-size:12px}
+.dot{width:8px;height:8px;background:#ff304f;border-radius:50%;box-shadow:0 0 10px #ff304f}
+h1{margin:24px 0 7px;font-size:28px}.sub{color:#9da6ba}
+.grid{display:grid;grid-template-columns:1.4fr .8fr;gap:18px;margin-top:22px}
+.card{background:#111522;border:1px solid #242a3b;border-radius:16px;padding:20px}
+.card h3{margin-top:0}.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.fact{background:#0b0e17;border-radius:12px;padding:14px;text-align:center}.fact b{display:block;font-size:20px}.fact span{color:#8e98ad;font-size:12px}
+button{background:#fff;color:#111;border:0;padding:11px 18px;border-radius:10px;font-weight:800;cursor:pointer}
+footer{text-align:center;color:#737d92;padding:30px}
+@media(max-width:700px){.teams{gap:5px}.team img{width:75px;height:75px}.team h2{font-size:17px}.vs strong{font-size:25px}.grid{grid-template-columns:1fr}.match{padding:20px}.facts{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-<header><div class="logo">📺 بثي المباشر</div><div class="live">● LIVE</div></header>
+<header><div class="logo">⚽ <span>BARÇA</span> LIVE</div><div class="live">● مباشر</div></header>
 <main>
-  <div class="player">
-    <video id="video" controls autoplay muted playsinline></video>
-    <div id="placeholder" class="placeholder">
-      <b>البث غير متصل</b>
-      ابدأ البث من OBS ليظهر هنا.
-    </div>
-  </div>
-  <h1>البث المباشر</h1>
-  <div class="sub">بث مباشر  </div>
-  <div class="info">
-    <h3>إعداد البث</h3>
-    <p>هذه الواجهة جاهزة للموقع. لربطها ببث حقيقي نحتاج عنوان خادم البث وملف/رابط HLS أو WebRTC.</p>
-    <p>مثال للرابط الذي سيضعه الموقع: <code>https://YOUR-SERVER/live/stream.m3u8</code></p>
-  </div>
+<section class="match">
+<div class="kicker">الدوري الإسباني — الجولة 3</div>
+<div class="teams">
+<div class="team">
+<img src="https://upload.wikimedia.org/wikipedia/en/4/47/FC_Barcelona_%28crest%29.svg" alt="شعار برشلونة">
+<h2>برشلونة</h2><p>FC Barcelona</p>
+</div>
+<div class="vs"><strong>VS</strong><div class="time">اليوم · 21:30</div></div>
+<div class="team">
+<img src="https://upload.wikimedia.org/wikipedia/en/1/1f/Rayo_Vallecano_logo.svg" alt="شعار رايو فايكانو">
+<h2>رايو فايكانو</h2><p>Rayo Vallecano</p>
+</div>
+</div>
+</section>
+
+<div class="player">
+<video id="video" controls autoplay muted playsinline></video>
+<div id="placeholder" class="placeholder">
+<div class="play">▶</div>
+<b>برشلونة × رايو فايكانو</b>
+<div>البث المباشر سيظهر هنا عند تشغيل خادم البث.</div>
+<div class="status"><span class="dot"></span> في انتظار البث</div>
+</div>
+</div>
+
+<h1>برشلونة × رايو فايكانو</h1>
+<div class="sub">بث مباشر — ملعب سبوتيفاي كامب نو · 31 أغسطس 2026 · 21:30</div>
+
+<div class="grid">
+<div class="card">
+<h3>معلومات المباراة</h3>
+<div class="facts">
+<div class="fact"><b>3</b><span>الجولة</span></div>
+<div class="fact"><b>21:30</b><span>موعد البداية</span></div>
+<div class="fact"><b>Camp Nou</b><span>الملعب</span></div>
+</div>
+</div>
+<div class="card">
+<h3>حالة البث</h3>
+<p style="color:#aeb6ca">اضغط تشغيل البث من OBS، وسيظهر الفيديو داخل هذه الصفحة بعد ربط رابط HLS.</p>
+<button onclick="location.reload()">تحديث البث</button>
+</div>
+</div>
 </main>
+<footer>BARÇA LIVE · صفحة متابعة المباراة</footer>
+
 <script>
-const STREAM_URL = ""; // ضع هنا رابط m3u8 بعد إعداد خادم البث
-const video = document.getElementById("video");
-const placeholder = document.getElementById("placeholder");
-if (STREAM_URL) {
-  video.src = STREAM_URL;
-  placeholder.style.display = "none";
+const STREAM_URL = ""; // ضع هنا رابط البث m3u8
+const video=document.getElementById("video");
+const placeholder=document.getElementById("placeholder");
+if(STREAM_URL){
+ video.src=STREAM_URL;
+ placeholder.style.display="none";
 }
 </script>
 </body>
