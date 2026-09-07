@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EURO FOOT — منصة كرة القدم</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,Tahoma,sans-serif;background:#07111f;color:#fff;min-height:100vh}
+header{position:sticky;top:0;z-index:10;background:#0a1627eF;backdrop-filter:blur(12px);border-bottom:1px solid #1d3048}
+.nav{max-width:1200px;margin:auto;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.logo{font-size:25px;font-weight:900}.logo span{color:#39d98a}
+nav{display:flex;gap:8px;flex-wrap:wrap}
+nav button,.filter{background:#102238;color:#dce8f5;border:1px solid #203a57;padding:10px 15px;border-radius:10px;cursor:pointer}
+nav button.active,.filter.active{background:#39d98a;color:#06131f;border-color:#39d98a;font-weight:800}
+.hero{max-width:1200px;margin:25px auto;padding:42px 25px;border-radius:20px;background:linear-gradient(135deg,#112d4d,#07111f);border:1px solid #1d3c5b;position:relative;overflow:hidden}
+.hero:after{content:"⚽";position:absolute;font-size:150px;left:30px;top:15px;opacity:.07}
+.badge{display:inline-block;background:#39d98a;color:#06131f;padding:7px 12px;border-radius:20px;font-weight:bold;margin-bottom:14px}
+.hero h1{font-size:clamp(32px,6vw,60px);margin-bottom:10px}
+.hero p{color:#9eb1c7;max-width:650px;line-height:1.8}
+.container{max-width:1200px;margin:auto;padding:0 20px 40px}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin:20px 0}
+.section-title{display:flex;justify-content:space-between;align-items:center;margin:28px 0 15px}
+.section-title h2{font-size:24px}
+.matches{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.card{background:#0c1b2d;border:1px solid #1b334d;border-radius:16px;padding:18px;transition:.2s}
+.card:hover{transform:translateY(-3px);border-color:#39d98a}
+.comp{font-size:13px;color:#7f9bb7;margin-bottom:15px}
+.teams{display:flex;align-items:center;justify-content:space-between;text-align:center;gap:12px}
+.team{flex:1;font-weight:bold}.crest{width:48px;height:48px;border-radius:50%;background:#162c45;display:grid;place-items:center;font-size:22px;margin:0 auto 7px}
+.vs{color:#39d98a;font-weight:900}
+.meta{margin-top:16px;padding-top:12px;border-top:1px solid #1b334d;color:#91a7bd;font-size:13px}
+.watch{display:block;text-align:center;margin-top:14px;padding:11px;border-radius:10px;background:#39d98a;color:#06131f;text-decoration:none;font-weight:900}
+.watch.disabled{background:#16283c;color:#8297ad}
+.info{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-top:30px}
+.info .box{background:#0c1b2d;border:1px solid #1b334d;border-radius:15px;padding:20px}
+.box b{font-size:28px;display:block;margin-bottom:7px;color:#39d98a}
+footer{text-align:center;color:#71869d;padding:30px;border-top:1px solid #1b334d}
+#live{display:none}
+@media(max-width:650px){.nav{align-items:flex-start;flex-direction:column}.hero{margin:15px}.container{padding:0 15px 30px}}
+</style>
+
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <div class="logo">EURO <span>FOOT</span></div>
+    <nav>
+      <button class="active" onclick="showTab('home',this)">الرئيسية</button>
+      <button onclick="showTab('champions',this)">دوري الأبطال</button>
+      <button onclick="showTab('europe',this)">الدوري الأوروبي</button>
+      <button onclick="showTab('live',this)">🔴 مباشر</button>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <span class="badge">⚽ كرة القدم الأوروبية</span>
+  <h1>كل المباريات في مكان واحد</h1>
+  <p>صفحة رياضية جاهزة لعرض المباريات، النتائج، الأخبار وروابط المشاهدة المرخّصة. عدّل بيانات المباريات والروابط من داخل الملف بسهولة.</p>
+</section>
+
+<main class="container">
+
+  <div id="home">
+    <div class="section-title"><h2>المباريات القادمة</h2><span>2026/27</span></div>
+    <div class="filters">
+      <button class="filter active" onclick="filterCards('all',this)">الكل</button>
+      <button class="filter" onclick="filterCards('ucl',this)">دوري الأبطال</button>
+      <button class="filter" onclick="filterCards('uel',this)">الدوري الأوروبي</button>
+      <button class="filter" onclick="filterCards('uecl',this)">دوري المؤتمر</button>
+    </div>
+
+    <div class="matches">
+      <article class="card match ucl" onclick="openBroadcast()" style="cursor:pointer">
+        <div class="comp">🏆 دوري أبطال أوروبا</div>
+        <div class="teams"><div class="team"><div class="crest">R</div>ريال مدريد</div><div class="vs">VS</div><div class="team"><div class="crest">M</div>مانشستر سيتي</div></div>
+        <div class="meta">📅 موعد المباراة: أضف التاريخ هنا<br>🕐 الوقت: أضف الوقت هنا</div>
+        <a class="watch" href="player.html" onclick="event.stopPropagation()">🔴 شاهد البث</a>
+      </article>
+
+      <article class="card match ucl" onclick="openBroadcast()" style="cursor:pointer">
+        <div class="comp">🏆 دوري أبطال أوروبا</div>
+        <div class="teams"><div class="team"><div class="crest">B</div>برشلونة</div><div class="vs">VS</div><div class="team"><div class="crest">P</div>باريس</div></div>
+        <div class="meta">📅 موعد المباراة: أضف التاريخ هنا<br>🕐 الوقت: أضف الوقت هنا</div>
+        <a class="watch" href="player.html" onclick="event.stopPropagation()">🔴 شاهد البث</a>
+      </article>
+
+      <article class="card match uel" onclick="openBroadcast()" style="cursor:pointer">
+        <div class="comp">🏆 الدوري الأوروبي</div>
+        <div class="teams"><div class="team"><div class="crest">L</div>ليفربول</div><div class="vs">VS</div><div class="team"><div class="crest">I</div>إنتر</div></div>
+        <div class="meta">📅 موعد المباراة: أضف التاريخ هنا<br>🕐 الوقت: أضف الوقت هنا</div>
+        <a class="watch" href="player.html" onclick="event.stopPropagation()">🔴 شاهد البث</a>
+      </article>
+
+      <article class="card match uecl" onclick="openBroadcast()" style="cursor:pointer">
+        <div class="comp">🏆 دوري المؤتمر الأوروبي</div>
+        <div class="teams"><div class="team"><div class="crest">A</div>الفريق الأول</div><div class="vs">VS</div><div class="team"><div class="crest">B</div>الفريق الثاني</div></div>
+        <div class="meta">📅 موعد المباراة: أضف التاريخ هنا<br>🕐 الوقت: أضف الوقت هنا</div>
+        <a class="watch" href="player.html" onclick="event.stopPropagation()">🔴 شاهد البث</a>
+      </article>
+    </div>
+
+    <div class="info">
+      <div class="box"><b>🏆</b>دوري أبطال أوروبا<br><small>أضف مبارياتك هنا</small></div>
+      <div class="box"><b>⚡</b>مباريات اليوم<br><small>تحديث يدوي سريع</small></div>
+      <div class="box"><b>🔴</b>البث المباشر<br><small>للمحتوى المرخّص فقط</small></div>
+    </div>
+  </div>
+
+  <div id="champions" style="display:none">
+    <div class="section-title"><h2>🏆 دوري أبطال أوروبا</h2></div>
+    <div class="card"><p style="color:#9eb1c7;line-height:1.8">هذه الصفحة مخصصة لمباريات دوري الأبطال. يمكنك إضافة المباريات والنتائج والروابط المرخّصة في نفس الملف.</p></div>
+  </div>
+
+  <div id="europe" style="display:none">
+    <div class="section-title"><h2>🏆 الدوري الأوروبي</h2></div>
+    <div class="card"><p style="color:#9eb1c7;line-height:1.8">هذه الصفحة مخصصة للدوري الأوروبي. عدّل أسماء الفرق والمواعيد حسب بياناتك.</p></div>
+  </div>
+
+  <div id="live" style="display:none">
+    <div class="section-title"><h2>🔴 البث المباشر</h2></div>
+    <div class="card">
+      <h3 style="margin-bottom:12px">البث المباشر</h3>
+      <p style="color:#9eb1c7;line-height:1.8">اضغط على الزر لتشغيل البث المرخّص.</p>
+      <button class="watch" style="border:0;width:100%;cursor:pointer" onclick="openBroadcast()">🔴 شاهد مباشر</button>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  EURO FOOT © 2026 — موقع رياضي تجريبي
+</footer>
+
+
+<script>
+function openBroadcast(){
+  window.location.href = "player.html";
+}
+function showTab(id,btn){
+  ['home','champions','europe','live'].forEach(x=>document.getElementById(x).style.display='none');
+  document.getElementById(id).style.display='block';
+  document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+function filterCards(type,btn){
+  document.querySelectorAll('.filter').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.match').forEach(c=>{
+    c.style.display=(type==='all'||c.classList.contains(type))?'block':'none';
+  });
+}
+</script>
+
+</body>
+</html>
