@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>مركز التحميل – ألعاب وتطبيقات</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f5f6fa;--surface:#fff;--text:#161a2b;--muted:#636a82;--line:#e3e6f0;
+  --accent:#5b4bff;--accent-text:#fff;--chip:#eceeff;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0f1220;--surface:#181c30;--text:#eef0fa;--muted:#99a0bd;--line:#2a2f4a;
+    --accent:#7d70ff;--accent-text:#0f1220;--chip:#23284a;color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0f1220;--surface:#181c30;--text:#eef0fa;--muted:#99a0bd;--line:#2a2f4a;
+  --accent:#7d70ff;--accent-text:#0f1220;--chip:#23284a;color-scheme:dark;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:"Tajawal",system-ui,-apple-system,"Segoe UI",Arial,sans-serif;line-height:1.6}
+.wrap{max-width:1000px;margin:0 auto;padding:20px 16px 48px}
+header{text-align:center;padding:28px 0 18px}
+header h1{margin:0 0 6px;font-size:clamp(26px,5vw,38px);font-weight:800}
+header p{margin:0;color:var(--muted)}
+.bar{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0}
+.bar input{flex:1 1 220px;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--surface);color:var(--text);font:inherit}
+.tabs{display:flex;gap:8px}
+.tab{padding:10px 16px;border:1px solid var(--line);border-radius:12px;background:var(--surface);color:var(--text);font:inherit;cursor:pointer}
+.tab[aria-pressed="true"]{background:var(--accent);color:var(--accent-text);border-color:var(--accent)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:10px}
+.top{display:flex;align-items:center;gap:12px}
+.ico{width:48px;height:48px;border-radius:12px;background:var(--chip);display:grid;place-items:center;font-size:26px;flex:none}
+.card h3{margin:0;font-size:18px}
+.card p{margin:0;color:var(--muted);font-size:14px;flex:1}
+.meta{display:flex;flex-wrap:wrap;gap:6px}
+.chip{background:var(--chip);border-radius:999px;padding:2px 10px;font-size:12px;color:var(--muted)}
+.dl{display:block;text-align:center;text-decoration:none;background:var(--accent);color:var(--accent-text);padding:10px;border-radius:12px;font-weight:700}
+.empty{text-align:center;color:var(--muted);padding:40px 0;display:none}
+footer{margin-top:36px;text-align:center;color:var(--muted);font-size:13px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>🎮 مركز التحميل</h1>
+    <p>ألعاب وتطبيقات – اختار وحمّل بسهولة</p>
+  </header>
+
+  <div class="bar">
+    <input id="q" type="search" placeholder="قلّب على لعبة ولا تطبيق…">
+    <div class="tabs">
+      <button class="tab" data-t="all" aria-pressed="true">الكل</button>
+      <button class="tab" data-t="game" aria-pressed="false">ألعاب</button>
+      <button class="tab" data-t="app" aria-pressed="false">تطبيقات</button>
+    </div>
+  </div>
+
+  <div class="grid" id="grid"></div>
+  <div class="empty" id="empty">ما لقينا والو 😕</div>
+
+  <footer>© مركز التحميل</footer>
+</div>
+
+<script>
+/* ===== عدّل هنا: زيد ولا بدّل الملفات =====
+   type: "game" ولا "app"
+   url: رابط التحميل (Google Drive، Mega، إلخ)
+   الأمثلة لتحت للتجربة فقط */
+const ITEMS = [
+  {title:"اسم اللعبة 1", type:"game", platform:"PC", size:"1.2 GB", desc:"وصف قصير للعبة.", url:"#"},
+  {title:"اسم اللعبة 2", type:"game", platform:"Android", size:"350 MB", desc:"وصف قصير للعبة.", url:"#"},
+  {title:"اسم اللعبة 3", type:"game", platform:"PC", size:"4.8 GB", desc:"وصف قصير للعبة.", url:"#"},
+  {title:"اسم التطبيق 1", type:"app", platform:"Windows", size:"85 MB", desc:"وصف قصير للتطبيق.", url:"#"},
+  {title:"اسم التطبيق 2", type:"app", platform:"Android", size:"40 MB", desc:"وصف قصير للتطبيق.", url:"#"},
+  {title:"اسم التطبيق 3", type:"app", platform:"Windows", size:"120 MB", desc:"وصف قصير للتطبيق.", url:"#"}
+];
+
+const grid = document.getElementById("grid");
+const empty = document.getElementById("empty");
+const q = document.getElementById("q");
+let tab = "all";
+
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+
+function render(){
+  const term = q.value.trim().toLowerCase();
+  const list = ITEMS.filter(i =>
+    (tab==="all" || i.type===tab) &&
+    (i.title+" "+i.desc+" "+i.platform).toLowerCase().includes(term));
+  grid.innerHTML = list.map(i => `
+    <article class="card">
+      <div class="top">
+        <div class="ico">${i.type==="game" ? "🎮" : "📱"}</div>
+        <h3>${esc(i.title)}</h3>
+      </div>
+      <p>${esc(i.desc)}</p>
+      <div class="meta">
+        <span class="chip">${i.type==="game" ? "لعبة" : "تطبيق"}</span>
+        <span class="chip">${esc(i.platform)}</span>
+        <span class="chip">${esc(i.size)}</span>
+      </div>
+      <a class="dl" href="${esc(i.url)}" target="_blank" rel="noopener">⬇ تحميل</a>
+    </article>`).join("");
+  empty.style.display = list.length ? "none" : "block";
+}
+
+document.querySelectorAll(".tab").forEach(b => b.addEventListener("click", () => {
+  tab = b.dataset.t;
+  document.querySelectorAll(".tab").forEach(x => x.setAttribute("aria-pressed", x===b));
+  render();
+}));
+q.addEventListener("input", render);
+render();
+</script>
+</body>
+</html>
